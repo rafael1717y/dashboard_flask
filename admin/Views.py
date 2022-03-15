@@ -30,6 +30,16 @@ class HomeView(AdminIndexView):
 
 
 class UserView(ModelView): #deve ser separada criptografia
+    column_exclude_list = ['password'] 
+    form_exclude_columns= ['last_update']
+    
+    form_widget_args = {
+        'password': {
+            'type': 'password',
+        }
+    }
+
+
     def on_model_change(self, form, User, is_created):  #quando for feita uma mudança na model
         if 'password' in form: # verifica se está enviando uma senha no form e usa set password que está na model.py como sha256
             if form.password.data is not None:
