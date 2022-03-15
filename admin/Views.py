@@ -15,7 +15,11 @@ class HomeView(AdminIndexView):
 
     @expose('/')
     def index(self):
-        return self.render('home.html')
+        states = State.query.all()  #objeto da model traz todo mundo
+        diseases = Disease.query.all()
+        estadoSaude = DiseaseState.query.all()
+
+        return self.render('home.html', states=states, diseases=diseases, estadoSaude=estadoSaude)
 
     def is_accessible(self):
         return True

@@ -1,7 +1,9 @@
-from flask import Flask
+from flask import Flask, request, Response, Request
 from admin.Admin import start_views
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
+import json
+import controllers as ctrl
 
 
 # Método para receber as configurações e ciar o app
@@ -31,6 +33,10 @@ def create_app(config):
         return response
 
 
-    @app.route('/')
-    def index():
-        return 'oi'
+    @app.route('/report', methods=['POST'])
+    def report():
+        state = request.form['state']
+        disease = request.form['disease']
+        patients = ctrl.reportByState(state, disease)
+
+        return Response(json.dumps(patients, ensure_ascii=False), mimetype='application/json'), 200, {}
