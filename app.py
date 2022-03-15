@@ -10,6 +10,15 @@ def create_app(config):
 
     config.APP = app
 
+
+    @app.after_request
+    def after_request(response): # Para API
+        response.headers.add('Acess-Control-Allow-Origin', '*')
+        response.headers.add('Acess-Control-Allow-Headers', 'Content-Type')
+        response.headers.add('Acess-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS')
+        return response
+
+
     @app.route('/')
     def index():
         return 'oi'
